@@ -1,0 +1,82 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Register User </h1>
+      </div>       
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <form [formGroup]="userForm" (ngSubmit)="onRegister()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">User Details</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputName">Full Name</label>
+              <input type="text" id="inputUserName" class="form-control" formControlName="username">
+              <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-danger">
+                Name is required
+              </div>
+            </div>
+             
+            <div class="form-group">
+              <label for="inputPhone">Phone</label>
+              <input type="text" id="inputPhone" class="form-control" formControlName="phone">
+              <div *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched" class="text-danger">
+                Valid phone number is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email</label>
+              <input type="email" id="inputEmail" class="form-control" formControlName="email">
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                Valid email is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputRole">Role</label>
+              <select id="inputRole" class="form-control custom-select" formControlName="role">
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              </select>
+              <div *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched" class="text-danger">
+                Role is required
+              </div>
+            </div> 
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input type="password" id="inputPassword" class="form-control" formControlName="password">
+              <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                Password is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputRetypePassword">Retype Password</label>
+              <input type="password" id="inputRetypePassword" class="form-control" formControlName="password_confirmation">
+              <div *ngIf="userForm.get('password_confirmation')?.invalid && userForm.get('password_confirmation')?.touched" class="text-danger">
+                Please Re-Enter Password
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success">Register</button> 
+      </div>
+    </div>
+  </form>
+</section>

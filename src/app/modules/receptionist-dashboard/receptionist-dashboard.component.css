@@ -1,0 +1,10 @@
+.content-wrapper {
+    width: 100%;
+    margin-left: 0;
+}.content-wrapper {
+    width: 100% !important;
+    margin-left: 0 !important;
+}div .content-wrapper {
+    width: 100%;
+    margin-left: 0;
+}

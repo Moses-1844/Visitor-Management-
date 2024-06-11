@@ -1,0 +1,12 @@
+.placeholder-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #bbb; /* Placeholder color */
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  

@@ -1,0 +1,54 @@
+<section class="content">
+    <form [formGroup]="visitorForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Visitor Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" id="inputName" class="form-control" formControlName="name">
+                        </div>
+                        <!-- Add similar input fields for other properties --> 
+                        <div class="form-group">
+                            <label for="inputIdNumber">ID Number</label>
+                            <input type="number" id="inputIdNumber" class="form-control" formControlName="idNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPhone">Phone</label>
+                            <input type="text" id="inputPhone" class="form-control" formControlName="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" id="inputEmail" class="form-control" formControlName="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCompany">Company</label>
+                            <input type="text" id="inputCompany" class="form-control" formControlName="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputReason">Reason</label>
+                            <input type="text" id="inputReason" class="form-control" formControlName="reason">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDate">Date</label>
+                            <input type="date" id="inputDate" class="form-control" formControlName="date">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTime">Time</label>
+                            <input type="time" id="inputTime" class="form-control" formControlName="time">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add another div for the appointment details -->
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="submit" value="Update Details" class="btn btn-success float-right">
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,27 @@
+{
+    "users": [
+        { "id": 1, "email": "admin@example.com", "role": "admin", "password": "admin123" },
+        { "id": 2, "email": "receptionist@example.com", "role": "receptionist", "password": "rec123" }
+      ],
+      "visitors": [
+        {
+          "id": 1,
+          "name": "John Doe",
+          "visitorId": "V001",
+          "company": "ABC Company",
+          "appointment": "Meeting",
+          "date": "2024-05-28",
+          "status": "Scheduled"
+        },
+        {
+          "id": 2,
+          "name": "Jane Smith",
+          "visitorId": "V002",
+          "company": "XYZ Inc.",
+          "appointment": "Interview",
+          "date": "2024-06-01",
+          "status": "Confirmed"
+        }
+         
+      ]
+} 
