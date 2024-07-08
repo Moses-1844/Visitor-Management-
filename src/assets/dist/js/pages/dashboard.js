@@ -1,4 +1,12 @@
- 
+/*
+ * Author: Abdullah A Almsaeed
+ * Date: 4 Jan 2014
+ * Description:
+ *      This is a demo file used only for the main dashboard (index.html)
+ **/
+
+/* global moment:false, Chart:false, Sparkline:false */
+
 $(function () {
   'use strict'
 
@@ -50,7 +58,11 @@ $(function () {
     DE: 500, // Germany
     FR: 760, // France
     CN: 300, // China
-   
+    AU: 700, // Australia
+    BR: 600, // Brazil
+    IN: 800, // India
+    GB: 320, // Great Britain
+    RU: 3000 // Russia
   }
   // World map by jvectormap
   $('#world-map').vectorMap({
@@ -104,11 +116,11 @@ $(function () {
   var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d')
   // $('#revenue-chart').get(0).getContext('2d');
 
-var salesChartData = {
-    labels: ['Customer Service', 'Loans', 'Accounts', 'Investments', 'Insurance', 'Mortgages', 'Credit Cards'],
+  var salesChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        label: 'Visitors',
+        label: 'Digital Goods',
         backgroundColor: 'rgba(60,141,188,0.9)',
         borderColor: 'rgba(60,141,188,0.8)',
         pointRadius: false,
@@ -116,10 +128,21 @@ var salesChartData = {
         pointStrokeColor: 'rgba(60,141,188,1)',
         pointHighlightFill: '#fff',
         pointHighlightStroke: 'rgba(60,141,188,1)',
-        data: [200, 150, 300, 100, 400, 200, 250] // Number of visitors in each department
+        data: [28, 48, 40, 19, 86, 27, 90]
+      },
+      {
+        label: 'Electronics',
+        backgroundColor: 'rgba(210, 214, 222, 1)',
+        borderColor: 'rgba(210, 214, 222, 1)',
+        pointRadius: false,
+        pointColor: 'rgba(210, 214, 222, 1)',
+        pointStrokeColor: '#c1c7d1',
+        pointHighlightFill: '#fff',
+        pointHighlightStroke: 'rgba(220,220,220,1)',
+        data: [65, 59, 80, 81, 56, 55, 40]
       }
     ]
-}
+  }
 
   var salesChartOptions = {
     maintainAspectRatio: false,
@@ -148,69 +171,22 @@ var salesChartData = {
     data: salesChartData,
     options: salesChartOptions
   })
-var visitorChartCanvas = document.getElementById('visitor-chart-canvas').getContext('2d');
 
-var visitorChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    datasets: [
-      {
-        label: 'Visitors',
-        backgroundColor: 'rgba(60,141,188,0.9)',
-        borderColor: 'rgba(60,141,188,0.8)',
-        pointRadius: false,
-        pointColor: '#3b8bba',
-        pointStrokeColor: 'rgba(60,141,188,1)',
-        pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(60,141,188,1)',
-        data: [200, 150, 300, 100, 400, 200, 250, 300, 350, 400, 450, 500] // Number of visitors for each month
-      }
-    ]
-}
-
-var visitorChartOptions = {
-    maintainAspectRatio: false,
-    responsive: true,
-    legend: {
-      display: false
-    },
-    scales: {
-      xAxes: [{
-        gridLines: {
-          display: false
-        }
-      }],
-      yAxes: [{
-        gridLines: {
-          display: false
-        }
-      }]
-    }
-}
-
-var visitorChart = new Chart(visitorChartCanvas, {
-    type: 'bar',
-    data: salesChartData,
-    options: salesChartOptions
-})
   // Donut Chart
   var pieChartCanvas = $('#sales-chart-canvas').get(0).getContext('2d')
- var pieData = {
+  var pieData = {
     labels: [
-      'Customer Service',
-      'Loans',
-      'Accounts',
-      'Investments',
-      'Insurance',
-      'Mortgages',
-      'Credit Cards'
+      'Instore Sales',
+      'Download Sales',
+      'Mail-Order Sales'
     ],
     datasets: [
       {
-        data: [200, 150, 300, 100, 400, 200, 250], // Total visitors for each department
-        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#7d3c98', '#2e86c1', '#d35400', '#16a085']
+        data: [30, 12, 20],
+        backgroundColor: ['#f56954', '#00a65a', '#f39c12']
       }
     ]
-}
+  }
   var pieOptions = {
     legend: {
       display: false
@@ -231,11 +207,11 @@ var visitorChart = new Chart(visitorChartCanvas, {
   var salesGraphChartCanvas = $('#line-chart').get(0).getContext('2d')
   // $('#revenue-chart').get(0).getContext('2d');
 
-var salesGraphChartData = {
-    labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  var salesGraphChartData = {
+    labels: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4', '2013 Q1', '2013 Q2'],
     datasets: [
       {
-        label: 'Visitors',
+        label: 'Digital Goods',
         fill: false,
         borderWidth: 2,
         lineTension: 0,
@@ -245,10 +221,10 @@ var salesGraphChartData = {
         pointHoverRadius: 7,
         pointColor: '#efefef',
         pointBackgroundColor: '#efefef',
-        data: [200, 300, 250, 350, 400, 450, 300] // Number of visitors for each day
+        data: [2666, 2778, 4912, 3767, 6810, 5670, 4820, 15073, 10687, 8432]
       }
     ]
-}
+  }
 
   var salesGraphChartOptions = {
     maintainAspectRatio: false,
@@ -269,7 +245,7 @@ var salesGraphChartData = {
       }],
       yAxes: [{
         ticks: {
-          stepSize: 500,
+          stepSize: 5000,
           fontColor: '#efefef'
         },
         gridLines: {
@@ -288,33 +264,4 @@ var salesGraphChartData = {
     data: salesGraphChartData,
     options: salesGraphChartOptions
   })
-  // Assuming you have an array of visitor data
-var visitors = [
-  {name: 'Visitor 1', time: '10:00 AM', date: '2022-01-01'},
-  {name: 'Visitor 2', time: '11:00 AM', date: '2022-01-01'},
-  // more visitors...
-];
-console.log(visitors);
-
-// Create a table
-var table = $('<table></table>').addClass('visitor-table');
-
-// Create table header
-var header = $('<tr></tr>');
-header.append('<th>Name</th>');
-header.append('<th>Time</th>');
-header.append('<th>Date</th>');
-table.append(header);
-
-// Add each visitor as a row in the table
-visitors.forEach(function(visitor) {
-  var row = $('<tr></tr>');
-  row.append('<td>' + visitor.name + '</td>');
-  row.append('<td>' + visitor.time + '</td>');
-  row.append('<td>' + visitor.date + '</td>');
-  table.append(row);
-});
-
-// Append the table to a container in your HTML
-$('#visitor-container').append(table);
 })

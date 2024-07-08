@@ -1,0 +1,310 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Appointments</h1>
+        </div>         
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- /.row -->
+  
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Appointments</h3>
+              <button
+                type="button"
+                routerLink="/projects-add"
+                class="card-title btn btn-primary"
+                style="float: right"
+                class="btn btn-primary"
+              >
+                Register Visitor
+              </button>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Search by Appointment ID" 
+                    [(ngModel)]="searchTerm" 
+                    (ngModelChange)="filterVisitors()"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" [(ngModel)]="selectedDepartment" (ngModelChange)="filterVisitors()">
+                    <option value="">Filter by Institution</option>
+                    <option *ngFor="let dept of department" [value]="dept">{{ dept }}</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" [(ngModel)]="selectedStatus" (ngModelChange)="filterVisitors()">
+                    <option value="">booked</option>
+                    <option value="1">cancelled</option>
+                    <option value="0">attended</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table
+                *ngIf="filteredVisitors.length > 0"
+                datatable
+                class="row-border hover table table-hover text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>Appointment ID</th>
+                    <th>Visitor Name</th>
+                    <th>Email</th>
+                    <th>Institution Name</th>
+                    <th>Department</th>
+                    <th>Appointment Status</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let visitor of filteredVisitors">
+                    <td>{{ visitor.appointmentid }}</td>
+                    <td>{{ visitor.visitor.visitorname }}</td>
+                    <td>{{ visitor.visitor.email }}</td>
+                    <td>{{ visitor.institution.name }}</td>
+                    <td>{{ visitor.department }}</td>
+                    <td>{{ visitor.appointmentstatus }}</td>
+                    <td>{{ visitor.date }}</td>
+                    <td>{{ visitor.time }}</td>
+                    <td>
+                        
+                      <i
+                        class="fas fa-pen"
+                        style="margin-left: 15px"
+                        (click)="read(user)"
+                        data-toggle="modal"
+                        data-target="#user-modal"
+                      ></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  
+  <div  *ngIf="isAdmin" class="float-right">
+    <button (click)="exportAsCSV()" class="btn btn-primary">
+      <i class="fas fa-file-csv"></i> Export as CSV
+    </button>
+    <button style="margin-left:1rem" (click)="exportAsPDF()" class="btn btn-primary">
+      <i class="fas fa-file-pdf"></i> Export as PDF
+    </button>
+  </div>
+  <!--modal for edit-->
+  <div class="modal fade" id="user-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" *ngIf="!editPopup">Add Add Visitor</h4>
+          <h4 class="modal-title" *ngIf="editPopup">Edit  Visitor</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="username">Visitor Name</label>
+                <input
+                  type="text"
+                  formControlName="username"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': errors.includes('username') }"
+                  id="username"
+                  placeholder="User Name"
+                />
+                <span
+                  id="userName-error"
+                  *ngIf="errors.includes('userName')"
+                  class="error invalid-feedback"
+                >
+                  {{ formError.userName }}</span
+                >
+              </div>
+              <div class="form-group">
+                <label for="department">Department</label>
+                <ng-select 
+                    [multiple]="false" 
+                    [closeOnSelect]="true" 
+                    [searchable]="true"
+                    bindLabel="roleName"
+                    bindValue="id"
+                    formControlName="roleId"
+                    placeholder="Select Department">
+                    <ng-option *ngFor="let dept of department" [value]="dept">{{ dept }}</ng-option>
+                </ng-select>
+  
+                <span
+                  id="role-error"
+                  *ngIf="errors.includes('selectedRoles')"
+                  class="error invalid-feedback"
+                  >{{ formError.selectedRoles }}</span
+                >
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': errors.includes('email') }"
+                  id="email"
+                  placeholder="Email"
+                />
+                <span
+                  id="email-error"
+                  *ngIf="errors.includes('email')"
+                  class="error invalid-feedback"
+                  >{{ formError.email }}</span
+                >
+              </div>
+              <div class="form-group" *ngIf="!editPopup">
+                <label for="company">Company</label>
+                <input
+                  type="text"
+                  formControlName="company"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': errors.includes('company') }"
+                  id="password"
+                  placeholder="Company"
+                />
+                <span
+                  id="password-error"
+                  *ngIf="errors.includes('password')"
+                  class="error invalid-feedback"
+                  >{{ formError.password }}</span
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input
+                  type="phone"
+                  formControlName="phone"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': errors.includes('phone') }"
+                  id="phone"
+                  placeholder="Phone"
+                />
+                <span
+                  id="phone-error"
+                  *ngIf="errors.includes('phone')"
+                  class="error invalid-feedback"
+                  >{{ formError.phone }}</span
+                >
+              </div>
+              <div class="form-group" *ngIf="!editPopup">
+                <label for="date">date</label>
+                <input
+                  type="date"
+                  formControlName="date"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': errors.includes('date')
+                  }"
+                  id="date"
+                  placeholder=""
+                />
+                <span
+                  id="date-error"
+                  *ngIf="errors.includes('date')"
+                  class="error invalid-feedback"
+                  >{{ formError.date }}</span
+                >
+              </div>
+              <div class="form-group">
+                <label for="reason">Company</label>
+                <input
+                  type="text"
+                  formControlName="company"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': errors.includes('company') }"
+                  id="company"
+                  placeholder="company"
+                />
+                <span
+                  id="department-error"
+                  *ngIf="errors.includes('department')"
+                  class="error invalid-feedback"
+                  >{{ formError.reason }}</span
+                >
+               
+            </div>
+            <!-- /.card-body -->
+          
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button
+            #closeModal
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            (click)="update()"
+            [disabled]="formSubmissionFlag"
+            class="btn btn-primary"
+            *ngIf="editPopup"
+          >
+            Update visitor
+          </button>
+          <button
+            type="button"
+            (click)="create()"
+            [disabled]="formSubmissionFlag"
+            class="btn btn-primary"
+            *ngIf="!editPopup"
+          >
+            Add visitor
+          </button>
+        </div>
+       
+      </form>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.content -->
+   
+  
+        
+  
+   
+  

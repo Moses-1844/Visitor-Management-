@@ -31,28 +31,11 @@
                 Name is required
               </div>
             </div>
-             
-            <div class="form-group">
-              <label for="inputPhone">Phone</label>
-              <input type="text" id="inputPhone" class="form-control" formControlName="phone">
-              <div *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched" class="text-danger">
-                Valid phone number is required
-              </div>
-            </div>
             <div class="form-group">
               <label for="inputEmail">Email</label>
               <input type="email" id="inputEmail" class="form-control" formControlName="email">
               <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
                 Valid email is required
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputRole">Role</label>
-              <select id="inputRole" class="form-control custom-select" formControlName="role">
-                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-              </select>
-              <div *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched" class="text-danger">
-                Role is required
               </div>
             </div> 
             <div class="form-group">

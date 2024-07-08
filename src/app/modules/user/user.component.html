@@ -48,43 +48,19 @@
                 <tr>
                   <th>Id</th>
                   <th>User Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Staus</th>
+                  <th>Email</th>                  
+                  <th>Role</th>
                   <th>Login Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of allUsers">
-                  <td>{{ user.user_id }}</td>
-                  <td>{{ user.userName }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.phone }}</td>
-                  <td>
-                    <div class="custom-control custom-switch">
-                      <input
-                        type="checkbox"
-                        [checked]="user.userStatus == 1"
-                        class="custom-control-input"
-                        (change)="updateStatus(user)"
-                        [id]="user.username"
-                      />
-                      <label
-                        class="custom-control-label"
-                        *ngIf="user.userStatus == 1"
-                        [for]="user.username"
-                        >User is active</label
-                      >
-                      <label
-                        class="custom-control-label"
-                        *ngIf="user.userStatus == 0"
-                        [for]="user.username"
-                        >User is in active</label
-                      >
-                    </div>
-                  </td>
-                  <td>
+                <tr *ngFor="let user of allUsers" >
+                  <td (click)="openDetails()">{{ user.userid }}</td>
+                  <td (click)="openDetails()">{{ user.username }}</td>
+                  <td (click)="openDetails()">{{ user.email }}</td>                   
+                  <td (click)="openDetails()">   {{ user.role }}</td>
+                  <td (click)="openDetails()">
                     <div class="custom-control custom-switch">
                       <input
                         type="checkbox"
@@ -131,7 +107,14 @@
   <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
+<div    class="float-right">
+  <button (click)="exportAsCSV()" class="btn btn-primary">
+    <i class="fas fa-file-csv"></i> Export as CSV
+  </button>
+  <button style="margin-left:1rem" (click)="exportAsPDF()" class="btn btn-primary">
+    <i class="fas fa-file-pdf"></i> Export as PDF
+  </button>
+</div>
 <div class="modal fade" id="user-modal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -169,26 +152,8 @@
               >
             </div>
             <div class="form-group">
-              <label for="role">Roles</label>
-              <ng-select
-                [ngClass]="{ 'is-invalid': errors.includes('selectedRoles') }"
-                [multiple]="false"
-                [closeOnSelect]="true"
-                [searchable]="true"
-                bindLabel="name"
-                formControlName="roleId"
-                placeholder="Select Roles"
-              >
-                <ng-option *ngFor="let role of userRoles" [value]="role.id">{{
-                  role.roleName
-                }}</ng-option>
-              </ng-select>
-              <span
-                id="role-error"
-                *ngIf="errors.includes('selectedRoles')"
-                class="error invalid-feedback"
-                >{{ formError.selectedRoles }}</span
-              >
+               
+              
             </div>
             <div class="form-group">
               <label for="email">Email</label>
@@ -207,42 +172,7 @@
                 >{{ formError.email }}</span
               >
             </div>
-            <div class="form-group" *ngIf="!editPopup">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                formControlName="password"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': errors.includes('password') }"
-                id="password"
-                placeholder="Password"
-              />
-              <span
-                id="password-error"
-                *ngIf="errors.includes('password')"
-                class="error invalid-feedback"
-                >{{ formError.password }}</span
-              >
-            </div>
-            <div class="form-group" *ngIf="!editPopup">
-              <label for="password">Password Confirmation</label>
-              <input
-                type="password"
-                formControlName="password_confirmation"
-                class="form-control"
-                [ngClass]="{
-                  'is-invalid': errors.includes('password_confirmation')
-                }"
-                id="password_confirmation"
-                placeholder="password_confirmation"
-              />
-              <span
-                id="password_confirmation-error"
-                *ngIf="errors.includes('password_confirmation')"
-                class="error invalid-feedback"
-                >{{ formError.password_confirmation }}</span
-              >
-            </div>
+             
             <div class="form-group">
               <label for="phone">Phone</label>
               <input

@@ -1,0 +1,35 @@
+<div class="card bg-gradient">
+    <div class="card-header border-0">
+      <h3 class="card-title">
+        <i class="far fa-calendar-alt"></i>
+        Department List
+      </h3>
+    </div>
+    <div class="card-body pt-0">
+      <div class="mb-3">
+        <div class="row">
+          <div class="col-md-3">
+            <select class="form-control" [(ngModel)]="itemsPerPage" (ngModelChange)="getDepartmentList()">
+              <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }} rows per page</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dept of department | slice:0:itemsPerPage">
+              <td>{{ dept.department_id || 'N/A' }}</td>
+              <td>{{ dept.departmentname || 'N/A' }}</td>
+            </tr>                
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

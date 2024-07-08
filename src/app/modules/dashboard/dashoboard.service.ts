@@ -2,60 +2,71 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { API_URL, API_ENDPOINTS } from './../../core/shared/utils/const';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = 'http://your-backend-url/api'; // Placeholder for real backend URL
 
   constructor(private http: HttpClient) {}
 
   getTotalVisitorsToday(): Observable<number> {
-    return this.http.get<any[]>(`${this.apiUrl}/visitors/today`).pipe(
+    const url = `${API_URL}/${API_ENDPOINTS.visitorsToday}`;
+    return this.http.get<any[]>(url).pipe(
       map(visitors => visitors.length)
     );
   }
 
   fetchTasks(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/tasks`);
+    const url = `${API_URL}/${API_ENDPOINTS.fetchTasks}`;
+    return this.http.get<any[]>(url);
   }
 
   getRate(): Observable<number> {
-    return this.http.get<any[]>(`${this.apiUrl}/rate`).pipe(
+    const url = `${API_URL}/${API_ENDPOINTS.getRate}`;
+    return this.http.get<any[]>(url).pipe(
       map(rate => rate[0].value)
     );
   }
 
   getUnattendedVisitors(): Observable<number> {
-    return this.http.get<any[]>(`${this.apiUrl}/visitors/unattended`).pipe(
+    const url = `${API_URL}/${API_ENDPOINTS.unattendedVisitors}`;
+    return this.http.get<any[]>(url).pipe(
       map(visitors => visitors.length)
     );
   }
 
   getActiveSessions(): Observable<number> {
-    return this.http.get<any[]>(`${this.apiUrl}/sessions/active`).pipe(
+    const url = `${API_URL}/${API_ENDPOINTS.activeSessions}`;
+    return this.http.get<any[]>(url).pipe(
       map(sessions => sessions.length)
     );
   }
 
   getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users`);
+    const url = `${API_URL}/${API_ENDPOINTS.users}`;
+    return this.http.get<any[]>(url);
   }
 
   updateUserStatus(user: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/users/status/${user.user_id}`, user);
+    const url = `${API_URL}/${API_ENDPOINTS.updateUserStatus}/${user.user_id}`;
+    return this.http.put<any>(url, user);
   }
 
-  updateUserChekinStatus(user: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/users/checkin-status/${user.user_id}`, user);
+  updateUserCheckinStatus(user: any): Observable<any> {
+    const url = `${API_URL}/${API_ENDPOINTS.updateUserCheckinStatus}/${user.user_id}`;
+    return this.http.put<any>(url, user);
   }
 
   deleteUser(userId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/users/${userId}`);
+    const url = `${API_URL}/${API_ENDPOINTS.deleteUser}/${userId}`;
+    return this.http.delete<any>(url);
   }
 
   updateUser(user: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/users/${user.user_id}`, user);
+    const url = `${API_URL}/${API_ENDPOINTS.updateUser}/${user.user_id}`;
+    return this.http.put<any>(url, user);
   }
+  
 }

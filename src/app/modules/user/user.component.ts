@@ -6,7 +6,9 @@ import { RolesService } from 'src/app/core/shared/services/roles.service';
 import { HttpClient } from '@angular/common/http';
 import { UsersService } from './users.service';
 import { ConfirmationComponent } from 'src/app/core/shared/components/confirmation/confirmation.component';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+ 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -41,6 +43,7 @@ export class UserComponent implements OnInit {
   userImage: string;
   serverError: boolean;
   popUpShowHideFlag: boolean;
+  users: any;
   editPopup: boolean;
   formSubmissionFlag: boolean = false;
   constructor(
@@ -48,9 +51,11 @@ export class UserComponent implements OnInit {
     private socket: SocketService,
     private http: HttpClient,
     private usersService: UsersService,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private router: Router
     ) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+     
   }
 
   ngOnInit(): void {
@@ -59,32 +64,18 @@ export class UserComponent implements OnInit {
     this.setForm();
   }
 
-  async getUserList() {
-    this.allUsers = [
-      {
-        user_id: '1',
-        email:'john@gmail.com',
-        password:'123456',
-        phone:'+92301789658',
-        gender:'male',
-        country:'Pakistan',
-        userStatus:1,
-        loginStatus:0,
-        username:'john doe'
-      },
-      {
-        user_id: '2',
-        email:'suzan@gmail.com',
-        password:'123456',
-        phone:'+92693569314',
-        country:'Pakistan',
-        gender:'male',
-        userStatus:1,
-        loginStatus:0,
-        username:'Suzan Miler'
-      }
-    ];
-  }
+
+ 
+getUserList() {
+  const institutionId =  localStorage.getItem('institutionid') ;  
+  const url = `https://mrvisitease.com:8080/api/users/institution/${institutionId}/users`;
+  this.http.get<any>(url).subscribe(response => {
+    this.allUsers = response;
+    console.log('User List:', this.allUsers);
+  }, error => {
+    console.error('There was an error retrieving the user list:', error);
+  });
+}
   getUserRoleList() {
     this.userRoles = [
       {
@@ -140,14 +131,11 @@ export class UserComponent implements OnInit {
   update() {
     this.formSubmissionFlag  = true;
     const formData: any = new FormData();
-    formData.append('user_id', this.userForm.value.user_id);
-    formData.append('countryId', 1);
-    formData.append('companyId', 1);
+    formData.append('user_id', this.userForm.value.user_id);     
     formData.append('roleId', this.userForm.value.roleId);
     formData.append('email', this.userForm.value.email);
     formData.append('username', this.userForm.value.username);
     formData.append('phone', this.userForm.value.phone);
-    formData.append('userImage', this.userForm.value.userImage);
     formData.append('userStatus', this.userForm.value.userStatus);
     formData.append('loginStatus', this.userForm.value.loginStatus);
     this.formSubmissionFlag  = false;
@@ -171,32 +159,45 @@ export class UserComponent implements OnInit {
     //   }
     // })
   }
-  delete(i: any) {
-    const dialogRef = this.viewContainer.createComponent(ConfirmationComponent)
+  delete(userid: any) {
+    console.log('delete', userid);
+    const dialogRef = this.viewContainer.createComponent(ConfirmationComponent);
     dialogRef.instance.visible = true;
     dialogRef.instance.action.subscribe(x => {
       if (x) {
-        // this.usersService.deleteUser(i.user_id)?.subscribe((res: any) => {
-        //   if (res.status === 'success') {
-        //     dialogRef.instance.visible = false;
-        //     Swal.fire({
-        //       title: '',
-        //       text: 'User Deleted Successfully',
-        //       icon: 'success',
-        //       confirmButtonText: 'Close'
-        //     })
-        //   }
-        // })
+        this.usersService.deleteUser(userid.userid).subscribe({
+          next: (res: any) => {
+            if (res.status === 'success') {
+              dialogRef.instance.visible = false;
+              Swal.fire({
+                title: '',
+                text: 'User Deleted Successfully',
+                icon: 'success',
+                confirmButtonText: 'Close'
+              });
+            }
+          },
+          error: (err) => {
+            console.error('Error deleting user:', err);
+            Swal.fire({
+              title: 'Error',
+              text: 'Failed to delete user',
+              icon: 'error',
+              confirmButtonText: 'Close'
+            });
+          }
+        });
         dialogRef.instance.visible = false;
         Swal.fire({
           title: '',
           text: 'User Deleted Successfully',
           icon: 'success',
           confirmButtonText: 'Close'
-        })
+        });
       }
-    })
+    });
   }
+  
   validForm() {
     this.errors = [];
     this.formError = {};
@@ -215,10 +216,32 @@ export class UserComponent implements OnInit {
   }
 
 
+  exportAsCSV() {
+    this.http.get('api/report', { responseType: 'blob' }).subscribe(data => {
+      const blob = new Blob([data], { type: 'text/csv' });
+      const url= window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'report.csv';
+      link.click();
+    });
+  }
+  
+  exportAsPDF() {
+    this.http.get('api/report', { responseType: 'blob' }).subscribe(data => {
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url= window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'report.pdf';
+      link.click();
+    });
+  }
 
 
-
-
+openDetails(/*userId: string*/) {
+  this.router.navigate(['./project-detail']);
+}
 
 
 

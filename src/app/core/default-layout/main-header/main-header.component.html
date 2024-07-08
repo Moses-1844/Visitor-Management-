@@ -6,7 +6,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="index3.html" class="nav-link">{{institutionName}}</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -63,11 +63,35 @@
     <a routerLink='/projects' class="dropdown-item">View all appointments</a>
   </div>
 </li>
+<li class="nav-item dropdown" *ngIf="isAdmin">
+  <a class="nav-link" data-toggle="dropdown" href="#">
+    <i class="fas fa-sign-in-alt"></i>
+    <span class="badge badge-danger navbar-badge">{{chekin.length }}</span>
+  </a>
+  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+    <a *ngFor="let chekin of chekin.slice(0, 5)" href="#" class="dropdown-item">
+      <!-- Message Start -->
+      <div class="media">
+        <div class="placeholder-avatar">{{ getInitials(chekin.name) }}</div>
+        <div class="media-body">
+          <h3 class="dropdown-item-title">
+            {{ chekin.name }}
+            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+          </h3>
+          <p class="text-sm">{{ chekin.department }}</p>
+          <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>{{ chekin.time }}</p>
+        </div>
+      </div>
+      <!-- Message End -->
+    </a>
+    <div class="dropdown-divider"></div>
+  </div>
+</li>
 
 
 
       <!-- Notifications Dropdown Menu -->
-      <!-- MainHeaderComponent HTML -->
+       
 <li class="nav-item dropdown" *ngIf="isAdmin">
   <a class="nav-link" data-toggle="dropdown" href="#">
     <i class="far fa-bell"></i>
@@ -89,12 +113,13 @@
       
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
+          <i class="fas fa-person"></i>
         </a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a  class="nav-link" routerLink="/admin-profile" role="button">
+          <i class="fas fa-user"></i>
         </a>
       </li>
     </ul>

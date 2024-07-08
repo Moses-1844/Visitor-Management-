@@ -1,4 +1,3 @@
- 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -8,7 +7,6 @@
         <div class="col-sm-12">
           <h1 class="m-0">Receptionist Dashboard</h1>
         </div><!-- /.col -->
-         
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
@@ -37,14 +35,13 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{unattendedVisitors}}</h3>
-
+              <h3>{{ unattendedVisitors }}</h3>
               <p>Free Departments</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a routerLink="/projects"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/projects" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -52,14 +49,13 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{unattendedVisitors}}</h3>
-
-              <p>Visitor on waiting</p>
+              <h3>{{ unattendedVisitors }}</h3>
+              <p>Visitors on Waiting</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a routerLink="/projects"  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/projects" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -67,9 +63,8 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{activeSessions}}</h3>
-
-              <p>Total Active Sessions </p>
+              <h3>{{ activeSessions }}</h3>
+              <p>Total Active Sessions</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
@@ -80,66 +75,55 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
+
       <!-- Main row -->
       <div class="row">
         <!-- Left col -->
         <section class="col-lg-7 connectedSortable">
-          <!-- Custom tabs (Charts with tabs)-->
+          <!-- Custom tabs (Charts with tabs) -->
           <div class="card bg-gradient-info">
             <div class="card-header border-0">
               <h3 class="card-title">
                 <i class="fas fa-th mr-1"></i>
                 Weekly Visitors
               </h3>
-              <div id="table-container"></div>
-              <table *ngIf="filteredUsers.length > 0" datatable class="row-border hover table table-hover text-nowrap">
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table *ngIf="allVisitors?.length > 0" datatable class="row-border hover table table-hover text-nowrap">
                 <thead>
                   <tr>
                     <th>Id</th>
-                    <th>User Name</th>
+                    <th>Visitor Name</th>
                     <th>Email</th>
-                    <th>Reason</th>
-                    <th>Check-in Status</th>
+                    <th>Department</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let user of filteredUsers">
-                    <td>{{ user.user_id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.reason }}</td>
-                    <td>
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" [checked]="user.chekinStatus == 1" class="custom-control-input" (change)="updateChekinStatus(user)" [id]="user.username + '1'" />
-                        <label class="custom-control-label" *ngIf="user.chekinStatus == 1" [for]="user.username + '1'">Visitor is Checked-In</label>
-                        <label class="custom-control-label" *ngIf="user.chekinStatus == 0" [for]="user.username + '1'">Visitor is Checked-Out</label>
-                      </div>
-                    </td>
-                     
+                  <tr *ngFor="let appointment of allVisitors">
+                    <td>{{ appointment?.visitor?.visitorid || 'N/A' }}</td>
+                    <td>{{ appointment?.visitor?.visitorname || 'N/A' }}</td>
+                    <td>{{ appointment?.visitor?.email || 'N/A' }}</td>
+                    <td>{{ appointment?.department || 'N/A' }}</td>
+                    <td>{{ appointment?.appointmentstatus || 'N/A' }}</td>
                   </tr>
                 </tbody>
               </table>
-            </div>         
-             
-             
-            <!-- /.card-footer -->
+            </div>
           </div>
-          
-           
           <!-- /.card -->
         </section>
         <!-- /.Left col -->
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-lg-5 connectedSortable">
 
+        <!-- right col -->
+        <section class="col-lg-5 connectedSortable">
           <!-- Map card -->
-          <div  class="card bg-gradient-primary">
+          <div class="card bg-gradient">
             <div class="card-header border-0">
               <h3 class="card-title">
-                <i class="fas fa-map-marker-alt mr-1"></i>
+                <i class="fas fa-person-alt mr-1"></i>
                 Visitors
               </h3>
-              <!-- card tools -->
               <div class="card-tools">
                 <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
                   <i class="far fa-calendar-alt"></i>
@@ -148,77 +132,47 @@
                   <i class="fas fa-minus"></i>
                 </button>
               </div>
-              <!-- /.card-tools -->
-          </div>
-          
-            <!-- /.card-body-->
-            <div class="card-footer bg-transparent">
-              <div class="row">
-                <div class="col-4 text-center">
-                  <div id="sparkline-1"></div>
-                  <div class="text-white">Visitors</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                  <div id="sparkline-2"></div>
-                  <div class="text-white">Online</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                  <div id="sparkline-3"></div>
-                  <div class="text-white">Appointments</div>
-                </div>
-                <!-- ./col -->
-              </div>
-              <!-- /.row -->
             </div>
-          
-          <!-- /.card -->
+            <div class="card-footer bg-transparent">
+              <canvas id="line-chart" height="200"></canvas>
+            </div>
           </div>
-           
-          
-          <!-- /.card -->
-
-          <!-- Calendar -->
-          <div class="card bg-gradient-success">
+          <!-- Department list card -->
+          <div class="card bg-gradient">
             <div class="card-header border-0">
-
               <h3 class="card-title">
                 <i class="far fa-calendar-alt"></i>
-                Calendar
+                Department List
               </h3>
-              <!-- tools card -->
-              <div class="card-tools">
-                <!-- button with a dropdown -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                    <i class="fas fa-bars"></i>
-                  </button>
-                  <div class="dropdown-menu" role="menu">
-                    <a routerLink ='/simple-table' class="dropdown-item">Add new event</a>
-                    <a href="#" class="dropdown-item">Clear events</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">View calendar</a>
+            </div>
+            <div class="card-body pt-0">
+              <div class="mb-3">
+                <div class="row">
+                  <div class="col-md-3">
+                    <select class="form-control" [(ngModel)]="itemsPerPage" (ngModelChange)="getDepartmentList()">
+                      <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }} rows per page</option>
+                    </select>
                   </div>
                 </div>
-                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
-              <!-- /. tools -->
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dept of department | slice:0:itemsPerPage">
+                      <td>{{ dept.department_id || 'N/A' }}</td>
+                      <td>{{ dept.departmentname || 'N/A' }}</td>
+                    </tr>                
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body pt-0">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.card-body -->
-          </div> 
-
-          <!-- /.card -->
+          </div>
         </section>
         <!-- right col -->
       </div>
@@ -227,5 +181,3 @@
   </section>
   <!-- /.content -->
 </div>
- 
- 

@@ -1,0 +1,98 @@
+<div class="card">
+  <div class="card-header border-0">
+    <h3 class="card-title">
+      <i class="far fa-credit-card"></i>
+      List of Visitors
+    </h3>
+  </div>
+  <div class="card-body">
+    <!-- Filters and Search Pane -->
+    <div class="mb-3">
+      <div class="row">
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" (ngModelChange)="applyFilters()">
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" [(ngModel)]="itemsPerPage" (ngModelChange)="applyFilters()">
+            <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }} rows per page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th (click)="sort('visitorid')">Visitor ID</th>
+            <th (click)="sort('visitorname')">Name</th>
+            <th (click)="sort('company')">Company</th>
+            <th (click)="sort('phone_number')">Contact</th>
+            <th (click)="sort('email')">Email</th>              
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let visitor of filteredVisitors | slice:0:itemsPerPage">
+            <td>{{ visitor.visitorid }}</td>
+            <td>{{ visitor.visitorname }}</td>
+            <td>{{ visitor.company }}</td>
+            <td>{{ visitor.phone_number }}</td>
+            <td>{{ visitor.email }}</td>               
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="editVisitor(visitor)">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteVisitor(visitor)">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Visitor Modal -->
+<div class="modal fade" id="user-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ editPopup ? 'Edit Visitor' : 'Add Visitor' }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="visitorname">Visitor Name</label>
+              <input type="text" formControlName="visitorname" class="form-control" id="visitorname" placeholder="Visitor Name"/>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email"/>
+            </div>
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" formControlName="company" class="form-control" id="company" placeholder="Company"/>
+            </div>
+            <div class="form-group">
+              <label for="phone_number">Phone</label>
+              <input type="text" formControlName="phone_number" class="form-control" id="phone_number" placeholder="Phone"/>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button #closeModalButton type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+            <button type="button" (click)="update()" [disabled]="formSubmissionFlag" class="btn btn-primary">
+              {{ editPopup ? 'Update Visitor' : 'Add Visitor' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

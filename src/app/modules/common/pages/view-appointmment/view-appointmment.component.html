@@ -1,0 +1,235 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Visitors</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Visitor</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- /.row -->
+  
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Visitor Table</h3>
+              <button
+                type="button"
+                routerLink="/projects-add"
+                class="card-title btn btn-primary"
+                style="float: right"
+              >
+                Register Visitor
+              </button>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Search by name" 
+                    [(ngModel)]="searchTerm" 
+                    (ngModelChange)="filterVisitors()"
+                  />
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="selectedDepartment" (ngModelChange)="filterVisitors()">
+                        <option value="">Filter by Department</option>
+                        <option *ngFor="let dept of department" [value]="dept">{{ dept }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" [(ngModel)]="selectedStatus" (ngModelChange)="filterVisitors()">
+                    <option value="">Filter by Status</option>
+                    <option value="active">booked</option>
+                    <option value="inactive">canceled</option>
+                    <option value="inactive">attended</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table
+                *ngIf="filteredVisitors.length > 0"
+                datatable
+                class="row-border hover table table-hover text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    
+                    <th>Visitor Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let appointment of filteredVisitors">
+                    <td>{{ appointment?.visitor?.visitorid || 'N/A' }}</td>
+                    <td>{{ appointment?.visitor?.visitorname || 'N/A' }}</td>
+                    <td>{{ appointment?.visitor?.email || 'N/A' }}</td>
+                    <td>{{ appointment?.department || 'N/A' }}</td>
+                    <td> {{ appointment?.appointmentstatus || 'N/A' }}</td>
+                    <td>
+                      <i
+                        class="fas fa-pen"
+                        style="margin-left: 15px"
+                        (click)="read(appointment)"
+                        data-toggle="modal"
+                        data-target="#user-modal"
+                      ></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  
+  <!-- Export buttons (only visible to admin) -->
+  <div *ngIf="isAdmin" class="float-right">
+    <button (click)="exportAsCSV()" class="btn btn-primary">
+      <i class="fas fa-file-csv"></i> Export as CSV
+    </button>
+    <button style="margin-left:1rem" (click)="exportAsPDF()" class="btn btn-primary">
+      <i class="fas fa-file-pdf"></i> Export as PDF
+    </button>
+  </div>
+  
+  <!-- Modal for adding/editing visitor -->
+  <!-- Modal for adding/editing visitor -->
+<div class="modal fade" id="user-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" *ngIf="!editPopup">Add Visitor</h4>
+          <h4 class="modal-title" *ngIf="editPopup">Edit Visitor</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm">
+            <div class="card-body">
+              <!-- Visitor Id - read-only -->
+              <div class="form-group">
+                <label for="user_id">Visitor Id</label>
+                <input
+                  type="text"
+                  formControlName="user_id"
+                  class="form-control"
+                  id="user_id"
+                  placeholder="Visitor Id"
+                  readonly
+                />
+              </div>
+              <!-- Visitor Name -->
+              <div class="form-group">
+                <label for="visitorname">Visitor Name</label>
+                <input
+                  type="text"
+                  formControlName="visitorname"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': errors.includes('visitorname') }"
+                  id="visitorname"
+                  placeholder="Visitor Name"
+                />
+                <span id="visitorname-error" *ngIf="errors.includes('visitorname')" class="error invalid-feedback">
+                  {{ formError.visitorname }}</span
+                >
+              </div>
+              <!-- Email -->
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': errors.includes('email') }"
+                  id="email"
+                  placeholder="Email"
+                />
+                <span id="email-error" *ngIf="errors.includes('email')" class="error invalid-feedback">
+                  {{ formError.email }}</span
+                >
+              </div>
+              <!-- Department -->
+              <div class="form-group">
+                <label for="department">Department</label>
+                <ng-select 
+                  [multiple]="false" 
+                  [closeOnSelect]="true" 
+                  [searchable]="true"
+                  [items]="department"
+                  bindLabel="name"
+                  bindValue="name"
+                  formControlName="department"
+                  placeholder="Select Department">
+                </ng-select>
+                <span id="department-error" *ngIf="errors.includes('department')" class="error invalid-feedback">
+                  {{ formError.department }}</span
+                >
+              </div>
+              <!-- Status -->
+              <div class="form-group">
+                <label for="visit_status">Status</label>
+                <ng-select 
+                  [multiple]="false" 
+                  [closeOnSelect]="true" 
+                  [searchable]="true"
+                  [items]="['active', 'inactive']"
+                  bindLabel="status"
+                  bindValue="status"
+                  formControlName="visit_status"
+                  placeholder="Select Status">
+                </ng-select>
+                <span id="visit_status-error" *ngIf="errors.includes('visit_status')" class="error invalid-feedback">
+                  {{ formError.visit_status }}</span
+                >
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button #closeModal type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button
+            type="button"
+            (click)="update()"
+            [disabled]="formSubmissionFlag"
+            class="btn btn-primary"
+            *ngIf="editPopup"
+          >
+            Update Visitor
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

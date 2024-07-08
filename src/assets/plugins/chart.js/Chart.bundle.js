@@ -7588,7 +7588,7 @@ function createResizer(handler) {
 	var maxSize = 1000000;
 
 	// NOTE(SB) Don't use innerHTML because it could be considered unsafe.
-	// https://github.com/chartjs/zz/issues/5902
+	// https://github.com/chartjs/Chart.js/issues/5902
 	var resizer = createDiv(CSS_SIZE_MONITOR);
 	var expand = createDiv(CSS_SIZE_MONITOR + '-expand');
 	var shrink = createDiv(CSS_SIZE_MONITOR + '-shrink');

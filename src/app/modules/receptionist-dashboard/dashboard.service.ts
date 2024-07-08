@@ -1,71 +1,70 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpHeaders } from '@angular/common/http';
+import { API_URL, API_ENDPOINTS } from './../../core/shared/utils/const';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = 'http://'; // JSON server URL
 
   constructor(private http: HttpClient) {}
 
   getTotalVisitorsToday(): Observable<number> {
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-    return this.http.get<any[]>(`${this.apiUrl}/visitors`).pipe(
-      map(visitors => visitors.filter(visitor => visitor.date === today).length)
+    const url = `${API_URL}/${API_ENDPOINTS.visitorsToday}`;
+    return this.http.get<any[]>(url).pipe(
+      map(visitors => visitors.length)
     );
   }
- fetchTasks(): Observable<any[]> {
-    return this.http.get<any[]>('api_url');
-}
+
+  fetchTasks(): Observable<any[]> {
+    const url = `${API_URL}/${API_ENDPOINTS.fetchTasks}`;
+    return this.http.get<any[]>(url);
+  }
+
   getRate(): Observable<number> {
-    return this.http.get<any[]>(`${this.apiUrl}/rate`).pipe(
+    const url = `${API_URL}/${API_ENDPOINTS.getRate}`;
+    return this.http.get<any[]>(url).pipe(
       map(rate => rate[0].value)
     );
   }
-    getUnattendedVisitors(): Observable<number> {
-        return this.http.get<any[]>(`${this.apiUrl}/visitors`).pipe(
-        map(visitors => visitors.filter(visitor => visitor.attended === false).length)
-        );
-    }
-    getActiveSessions(): Observable<number> {
-        return this.http.get<any[]>(`${this.apiUrl}/sessions`).pipe(
-        map(sessions => sessions.filter(session => session.active === true).length)
-        );
-    }
-    getUserList(): Observable<any> {
-      return this.http.get('api_url_to_get_user_list');
-    }
-    updateUser(user: FormData): Observable<any> {
-      return this.http.put('api_url_to_update_user', user, {
-          headers: new HttpHeaders({
-              'enctype': 'multipart/form-data'
-          })
-      });
+
+  getUnattendedVisitors(): Observable<number> {
+    const url = `${API_URL}/${API_ENDPOINTS.unattendedVisitors}`;
+    return this.http.get<any[]>(url).pipe(
+      map(visitors => visitors.length)
+    );
   }
-  deleteUser(userId: any): Observable<any> {
-    return this.http.delete(`api_url_to_delete_user/${userId}`);
+
+  getActiveSessions(): Observable<number> {
+    const url = `${API_URL}/${API_ENDPOINTS.activeSessions}`;
+    return this.http.get<any[]>(url).pipe(
+      map(sessions => sessions.length)
+    );
   }
-    /*// should return data in the following format
-    user_id: '2',
-          email: 
-          company: 
-          reason: 
-          chekinStatus: 1,
-          username: 
+
+  getVisitorsList(): Observable<any[]> {
+    const url = `${API_URL}/${API_ENDPOINTS.visitorsList}`;
+    return this.http.get<any[]>(url);
+  }
+
   updateUser(user: FormData): Observable<any> {
-    return this.http.put('api_url_to_update_user', user, {
+    const url = `${API_URL}/${API_ENDPOINTS.updateUser}`;
+    return this.http.put<any>(url, user, {
       headers: new HttpHeaders({
         'enctype': 'multipart/form-data'
       })
     });
   }
-  getReasonList(): Observable<any> {
-    return this.http.get('api_url_to_get_reason_list');
-      return this.http.get('api_url_to_get_reason_list');
+
+  deleteUser(userId: string): Observable<any> {
+    const url = `${API_URL}/${API_ENDPOINTS.deleteUser}/${userId}`;
+    return this.http.delete<any>(url);
   }
-}*/
+
+  getDepartments(): Observable<any[]> {
+    const url = `${API_URL}/${API_ENDPOINTS.departments}`;
+    return this.http.get<any[]>(url);
+  }
 }

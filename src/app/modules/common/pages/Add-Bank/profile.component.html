@@ -1,0 +1,125 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Create Institutions</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <!-- Institution Form -->
+  <form [formGroup]="institutionForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Institution Details</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputName">Institution Name</label>
+              <input type="text" id="inputName" class="form-control" formControlName="name">
+              <div *ngIf="institutionForm.get('name')?.invalid && institutionForm.get('name')?.touched" class="text-danger">
+                Institution name is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPhone">Institution Contact</label>
+              <input type="text" id="inputPhone" class="form-control" formControlName="contactNumber">
+              <div *ngIf="institutionForm.get('contactNumber')?.invalid && institutionForm.get('contactNumber')?.touched" class="text-danger">
+                Valid phone number is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email</label>
+              <input type="email" id="inputEmail" class="form-control" formControlName="email">
+              <div *ngIf="institutionForm.get('email')?.invalid && institutionForm.get('email')?.touched" class="text-danger">
+                Valid email is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputLocation">Location</label>
+              <input type="text" id="inputLocation" class="form-control" formControlName="location">
+              <div *ngIf="institutionForm.get('location')?.invalid && institutionForm.get('location')?.touched" class="text-danger">
+                Location is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputZipCode">Zip-Code</label>
+              <input type="text" id="inputZipCode" class="form-control" formControlName="zipCode">
+              <div *ngIf="institutionForm.get('zipCode')?.invalid && institutionForm.get('zipCode')?.touched" class="text-danger">
+                Zip-Code is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputReg">Institution Registration Number</label>
+              <input type="text" id="inputReg" class="form-control" formControlName="registrationNumber">
+              <div *ngIf="institutionForm.get('registrationNumber')?.invalid && institutionForm.get('registrationNumber')?.touched" class="text-danger">
+                Registration number is required
+              </div>
+            </div>
+            <input type="submit" value="Register Institution" class="btn btn-primary float-right">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Admin Form -->
+  <form [formGroup]="adminForm" (ngSubmit)="onRegister()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Institution Admin Details</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="id">Institution ID</label>
+              <input type="text" id="id" class="form-control" formControlName="id">
+              <div *ngIf="adminForm.get('id')?.invalid && adminForm.get('id')?.touched" class="text-danger">
+                Valid id is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="adminEmail">Admin Email</label>
+              <input type="email" id="adminEmail" class="form-control" formControlName="adminEmail">
+              <div *ngIf="adminForm.get('adminEmail')?.invalid && adminForm.get('adminEmail')?.touched" class="text-danger">
+                Valid email is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="adminUsername">Admin Username</label>
+              <input type="text" id="adminUsername" class="form-control" formControlName="username">
+              <div *ngIf="adminForm.get('username')?.invalid && adminForm.get('username')?.touched" class="text-danger">
+                Username is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" class="form-control" formControlName="password">
+              <div *ngIf="adminForm.get('password')?.invalid && adminForm.get('password')?.touched" class="text-danger">
+                Password is required and must be at least 6 characters long
+              </div>
+            </div>
+            <input type="submit" value="Register Admin" class="btn btn-primary float-right">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

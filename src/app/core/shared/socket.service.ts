@@ -1,57 +1,71 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
-  private url = environment.ws_url;
-  private socket: any;
-  userInfo: any;
+  private socket: Socket;
+  private userInfo: any;
+
   constructor() {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if(this.userInfo){
-      this.url = `${environment.ws_url}?companyId=${this.userInfo.companyId}&token=${localStorage.getItem('token')}`;
-      this.socket = io(this.url);
+    if (this.userInfo) {
+      this.connect();
     }
-
   }
 
-  emitLoginLogout(user: any): void {
-    this.socket.emit(`get-latest-login-logout-${this.userInfo.companyId}`, user);
-  }
-  geLoginLogout(): Observable<any[]> {
-    return Observable.create((observer) => {
-      this.socket.on(`login-logout-${this.userInfo.companyId}`, (data) => {
-        if (data) {
-          observer.next(data);
-        } else {
-          observer.error('Unable To Reach Server');
-        }
-      });
-      return () => {
-        this.socket.disconnect();
-      };
+  private connect(): void {
+    const token = localStorage.getItem('token');
+    //const url = `${environment.ws_url}?token=${token}`;
+    //this.socket = io(url);
+
+    // Handle connection events (optional)
+    this.socket.on('connect', () => {
+      console.log('Socket connected');
     });
-  }
-  emitUser(user: any): void {
-    this.socket.emit(`get-latest-users-${this.userInfo.companyId}`, user);
-  }
-  getUsers(): Observable<any[]> {
-    return Observable.create((observer) => {
-      this.socket.on(`all-users-${this.userInfo.companyId}`, (data) => {
-        if (data) {
-          observer.next(data);
-        } else {
-          observer.error('Unable To Reach Server');
-        }
-      });
-      return () => {
-        this.socket.disconnect();
-      };
+
+    this.socket.on('disconnect', () => {
+      console.log('Socket disconnected');
     });
+
+    // Handle general user-related events
+    this.handleUserEvents();
+  }
+
+  private handleUserEvents(): void {
+    if (this.socket) {
+      // Listen for user login/logout events
+      this.socket.on(`user-login-logout`, (data) => {
+        console.log('User login/logout event:', data);
+      });
+
+      // Listen for user data updates
+      this.socket.on(`user-data-update`, (data) => {
+        console.log('User data update event:', data);
+      });
+    } else {
+      console.error('Socket is not connected.');
+    }
+  }
+
+  // Emit user login/logout events
+  emitLoginLogout(userEvent: any): void {
+    if (this.socket) {
+      this.socket.emit(`get-latest-login-logout`, userEvent);
+    } else {
+      console.error('Socket is not connected.');
+    }
+  }
+
+  // Emit user data update events
+  emitUserDataUpdate(userData: any): void {
+    if (this.socket) {
+      this.socket.emit(`update-user-data`, userData);
+    } else {
+      console.error('Socket is not connected.');
+    }
   }
 }

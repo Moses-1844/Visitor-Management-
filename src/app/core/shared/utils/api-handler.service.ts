@@ -8,6 +8,9 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiHandlerService {
+  delete<T>(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) { }
 

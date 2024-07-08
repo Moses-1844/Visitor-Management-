@@ -1,0 +1,57 @@
+.content-wrapper {
+    width: 100%;
+    margin-left: 0;
+}.content-wrapper {
+    width: 100% !important;
+    margin-left: 0 !important;
+}div .content-wrapper {
+    width: 100%;
+    margin-left: 0;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+  }
+  
+  .table-hover tbody tr:hover {
+    color: #495057;
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  .form-control {
+    width: 100%;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  .custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    border-end-end-radius: 10px;
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
+  
+  

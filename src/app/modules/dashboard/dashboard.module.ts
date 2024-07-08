@@ -7,14 +7,20 @@ import { MainSidebarModule } from 'src/app/core/default-layout/main-sidebar/main
 import { MainFooterModule } from 'src/app/core/default-layout/main-footer/main-footer.module';
 import { ControlSidebarModule } from 'src/app/core/default-layout/control-sidebar/control-sidebar.module';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
-@NgModule({ declarations: [DashboardComponent], imports: [CommonModule,
+@NgModule({ declarations: [DashboardComponent],
+        imports: [
+        CommonModule,
         DashboardRoutingModule,
         MainHeaderModule,
         MainSidebarModule,
         ControlSidebarModule,
         MainFooterModule,
-        ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        ReactiveFormsModule,
+        FormsModule
+], 
+        
+        providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class DashboardModule {
 }

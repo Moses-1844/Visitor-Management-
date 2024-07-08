@@ -1,0 +1,50 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Checkin Customer</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Checkin</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="col-md-8">
+    <div class="card card-secondary">
+      <div class="card-header">
+        <h3 class="card-title">Checkin</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <!-- Passcode Input -->
+        <div class="form-group">
+          <label for="passcode" class="form-label">Enter PassCode</label>
+          <input type="text" id="passcode" class="form-control my-2" [(ngModel)]="passcode">
+        </div>
+        <!-- Appointment ID Input -->
+        <div class="form-group">
+          <label for="appointmentId" class="form-label">Enter Appointment Id</label>
+          <input type="number" id="appointmentId" class="form-control my-2" [(ngModel)]="appointmentId">
+        </div>
+        <!-- Check-in and Check-out Buttons -->
+        <div class="form-group my-3">
+          <button (click)="checkIn()" class="btn btn-success mr-2">Check In</button>
+          <button (click)="checkOut()" class="btn btn-danger">Check Out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

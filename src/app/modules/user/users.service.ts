@@ -1,27 +1,53 @@
-import { API_ENDPOINTS, ApiMethod } from '../../core/shared/utils/const';
-import { ApiHandlerService } from '../../core/shared/utils/api-handler.service';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
+  private apiUrl = 'https://mrvisitease.com:8080/api/users';
 
-  constructor(private http: ApiHandlerService) { }
+  constructor(private http: HttpClient) { }
 
-  getUsers() {
-    return this.http.requestCall(API_ENDPOINTS.users,ApiMethod.GET,'')
+  getUsers(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  deleteUser(i:any) {
-    return this.http.requestCall(API_ENDPOINTS.deleteUser,ApiMethod.GET,i)
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  editUser(data:any) {
-    return this.http.requestCall(API_ENDPOINTS.editUser,ApiMethod.POST,'',data)
+  editUser(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/edit`, data)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  createUser(data:any) {
-    return this.http.requestCall(API_ENDPOINTS.createUser,ApiMethod.POST,'',data)
+  registerAdmin(adminDetails: any): Observable<any> {
+    const institutionId = adminDetails.institutionId || localStorage.getItem('institutionId');
+    const url = `${this.apiUrl}/institution-admin?institutionId=${institutionId}`;
+
+    return this.http.post<any>(url, adminDetails)
+      .pipe(
+        map(response => response),
+        catchError(error => {
+          console.error('Error during registration:', error);
+          return throwError(() => new Error('Failed to register admin'));
+        })
+      );
+  }
+
+  handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 }

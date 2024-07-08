@@ -1,3 +1,4 @@
+import { get } from 'jquery';
 import {environment} from 'src/environments/environment';
 
 export const API_URL: string = environment.api_url;
@@ -12,16 +13,16 @@ export enum ApiMethod {
 
 
 export const API_ENDPOINTS = {
-logIn:'users/login',
-registerUser:'users/signup',
+signIn:'users/login',
+registerUser:'users/receptionist',
 resetPassword:'users/resetPassword/',
 forgetPassword:'users/forgotPassword',
 getBrowserDetail:'users/getBrowserDetail/',
 setBrowserDetail:'users/setBrowserDetail',
 users: 'users',
-deleteUser: 'users/deleteUser/',
-editUser: 'users/updateUser',
-createUser: 'users/createUser',
+deleteUser: 'users',
+editUser: 'users',
+createUser: 'users',
 getRoles:'roles',
 getRoleByID:'roles/',
 createRoles:'roles/createRole',
@@ -33,6 +34,32 @@ getAllBannersByCompany:'banners/getAllBannersByCompany/',
 createBanner:'banners/createBanner',
 editBanner:'banners/updateBanner',
 deleteBanner:'banners/deleteBanner/',
- 
- 
+addVisitor:'visitors', 
+addAppointment:'appointments',
+getVisitors:'visitors',
+getVisitorsById:'visitors/',
+updateVisitor:'visitors/updateVisitor/',
+deleteVisitors:'visitors/deleteVisitor/',
+getAppointments:'appointments',
+getAppointmentById:'appointments/',
+checkIn:'visitors/checkIn',
+checkOut:'visitors/checkOut',
+getVisitorDetails:'visitors',
+visitorsToday: 'visitors/today',
+fetchTasks: 'tasks',
+getRate: 'rate',
+unattendedVisitors: 'visitors/unattended',
+activeSessions: 'sessions/active',
+updateUserStatus: 'users/status',
+updateUserCheckinStatus: 'users/checkin-status',
+updateUser: 'users/updateUser',
+addInstitution: 'institutions',
+addAdmin: 'users',
+getBanks: 'institutuions',
+deleteBank: 'institutions/deleteInstitutions',
+updateBank: 'banks/updateInstitutuions',
+departments: 'departments',
+visitorsList: 'visitors',
+getUserDetails: 'users',
+getInstitutionData: 'institutions',
 }

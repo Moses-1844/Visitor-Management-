@@ -34,7 +34,7 @@ export class ResetPasswordComponent {
 
   onResetPassword(){
    this.isError = false;
-   this.authService.resetPassword(this.resetPasswordForm.value,this.token)?.subscribe((res:any)=>{
+   this.authService.resetPassword(this.resetPasswordForm.value)?.subscribe((res:any)=>{
     if(res.status === 'success'){
       this.router.navigate(['/login']);
     }else{

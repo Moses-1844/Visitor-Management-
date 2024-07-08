@@ -1,0 +1,179 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <h1 class="m-0">Owner Dashboard</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{ totalVisitorsToday }}</h3>
+                <p>Total Visitors</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-ios-people"></i>
+              </div>
+              <a routerLink="/projects" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ banks.length }}</h3>
+                <p>Total Banks</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-cash"></i>
+              </div>
+              <a routerLink="/projects" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ activeBanks }}</h3>
+                <p>Active Banks</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-cash"></i>
+              </div>
+              <a routerLink="/projects" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ support.length }}</h3>
+                <p>Support Request</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-help-buoy"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+  
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-7 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card bg-gradient">
+              <div class="card-header border-0">
+                <h3 class="card-title">Traffic</h3>
+              </div>
+              <div class="card-body">
+                <canvas #trafficChart id="trafficChart" width="300" height="300"></canvas>
+              </div>
+            </div>
+             
+            <!-- /.card -->
+  
+            <!-- /.card -->
+          </section>
+          <!-- /.Left col -->
+  
+          <!-- Right col (we are only adding the ID to make the widgets sortable) -->
+          <section class="col-lg-5 connectedSortable">
+            <!-- Map card -->
+            
+            <div class="card bg-gradient">
+                <div class="card-header border-0">
+                  <canvas #myChart id="myChart"></canvas>
+                </div>
+              </div>
+              <!-- /.card -->
+            <!-- /.card -->
+  
+            <!-- Calendar -->
+            <div class="card bg-gradient">
+              <!-- Add this inside the existing card structure -->
+ 
+  <div class="card-header border-0">
+    <h3 class="card-title">
+      <i class="far fa-credit-card"></i>
+      List of Banks
+    </h3>
+  </div>
+  <div class="card-body">
+    <!-- Filters and Search Pane -->
+    <div class="mb-3">
+      <div class="row">
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" (ngModelChange)="applyFilters()">
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" [(ngModel)]="itemsPerPage" (ngModelChange)="applyFilters()">
+            <option *ngFor="let option of [5, 10, 15, 20]" [value]="option">{{ option }} rows per page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th (click)="sort('name')">Name</th>
+            <th (click)="sort('address')">Address</th>
+            <th (click)="sort('email')">Email</th>
+            <th (click)="sort('registrationNumber')">Reg</th>
+          </tr>
+        </thead>
+        <tbody class="custom-table">
+          <tr *ngFor="let bank of filteredBanks | slice:0:itemsPerPage"  >
+            <td>{{ bank.name}}</td>
+            <td>{{ bank.address}}</td>
+            <td>{{ bank.email }}</td>
+            <td>{{ bank.registrationNumber}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
+ 
+
+              <!-- /.card-header -->
+              <div class="card-body pt-0">
+                <!-- The calendar -->
+                 
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </section>
+          <!-- /.right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  

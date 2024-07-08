@@ -9,15 +9,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./main-header.component.css']
 })
 export class MainHeaderComponent implements OnInit {
-  appointments: any[] = []; // Array to store fetched appointments
+  appointments: any[] = []; 
+  chekin: any[] = [];  
   loggedInUsers: any[] = [];
   isAdmin: boolean = false;
   isReceptionist: boolean = false;
+  institutionName: string = localStorage.getItem('institutionName') || 'Giktek';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.fetchAppointments(); 
+    this.fetchChekin();
   
     const userRole = this.authService.getRole();  
   
@@ -60,6 +63,40 @@ export class MainHeaderComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching appointments:', error);
+      }
+    );
+    */
+  }
+  fetchChekin() {
+    // Mock data for testing
+    this.chekin = [
+      {
+        "name": "John Doe",
+        "department": "Marketing",
+        "time": "2024-06-10T09:00:00"
+      },
+      {
+        "name": "Jane Smith",
+        "department": "HR",
+        "time": "2024-06-10T10:30:00"
+      },
+      {
+        "name": "Alice Johnson",
+        "department": "Finance",
+        "time": "2024-06-10T13:45:00"
+      }
+    ];
+
+    // Uncomment the below code and replace 'your-api-endpoint' with the actual API endpoint to fetch appointments from the server
+
+    /*
+    this.http.get<any[]>('your-api-endpoint').subscribe(
+      (data) => {
+        // Assign fetched appointments to the appointments array
+        this.chekin = data;
+      },
+      (error) => {
+        console.error('Error fetching chekin:', error);
       }
     );
     */

@@ -18,13 +18,14 @@ export class MainSidebarComponent implements OnInit {
   ngOnInit(): void {}
 
   // Add a function to filter nav items based on role
-  filterNavItems() {
-    if (this.userRole === 'admin') {
-      return this.navItems; // Return all items for admin
-    } else if (this.userRole === 'receptionist') {
-      return this.navItems.filter(item => item.role === 'receptionist'); // Return specific items for receptionist
-    }
-    return []; // Default empty array if no role matches
-  }
+filterNavItems() {
+  if (this.userRole === 'INSTITUTION_ADMIN') {
+    return this.navItems.filter(item => item.role === 'INSTITUTION_ADMIN');//this.navItems; // Return all items for admin
+} else if (this.userRole === 'RECEPTIONIST') {
+    return this.navItems.filter(item => item.role === 'RECEPTIONIST'); // Return specific items for receptionist
+} else if (this.userRole === 'SUPERADMIN') {
+    return this.navItems.filter(item => item.role === 'SUPERADMIN'); // Return specific items for owner
 }
-
+return []; // Default empty array if no role matches
+}
+}

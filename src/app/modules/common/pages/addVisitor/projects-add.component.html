@@ -1,0 +1,108 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Book Appointment</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Book Appointment</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <form [formGroup]="visitorForm" (ngSubmit)="onSubmit()">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Visitor Details</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <input type="text" id="inputName" class="form-control" formControlName="name">
+              <div *ngIf="visitorForm.get('name')?.invalid && visitorForm.get('name')?.touched" class="text-danger">
+                Name is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPhone">Phone</label>
+              <input type="text" id="inputPhone" class="form-control" formControlName="phone">
+              <div *ngIf="visitorForm.get('phone')?.invalid && visitorForm.get('phone')?.touched" class="text-danger">
+                Valid phone number is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email</label>
+              <input type="email" id="inputEmail" class="form-control" formControlName="email">
+              <div *ngIf="visitorForm.get('email')?.invalid && visitorForm.get('email')?.touched" class="text-danger">
+                Valid email is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputCompany">Company</label>
+              <input type="text" id="inputCompany" class="form-control" formControlName="company">
+              <div *ngIf="visitorForm.get('company')?.invalid && visitorForm.get('company')?.touched" class="text-danger">
+                Company is required
+              </div>
+            </div>
+            <input type="submit" value="Register Visitor" class="btn btn-success float-right">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <form [formGroup]="appointmentForm" (ngSubmit)="bookAppointment()">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Book Appointment</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputDepartment">Department</label>
+              <select id="inputDepartment" class="form-control custom-select" formControlName="department">
+                <option *ngFor="let dept of department" [value]="dept">{{ dept }}</option>
+              </select>
+              <div *ngIf="appointmentForm.get('department')?.invalid && appointmentForm.get('department')?.touched" class="text-danger">
+                Department is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputDate">Date</label>
+              <input type="date" id="inputDate" class="form-control" formControlName="date">
+              <div *ngIf="appointmentForm.get('date')?.invalid && appointmentForm.get('date')?.touched" class="text-danger">
+                Date is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputTime">Appointment time</label>
+              <input type="time" id="inputTime" class="form-control" formControlName="time">
+              <div *ngIf="appointmentForm.get('time')?.invalid && appointmentForm.get('time')?.touched" class="text-danger">
+                Time is required
+              </div>
+            </div>
+            <input type="submit" value="Book Appointment" class="btn btn-success float-right">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add New Department</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- Add [formGroup]="addDepartmentForm" to bind the form group -->
+                        <form [formGroup]="addDepartmentForm" (ngSubmit)="addDepartment()">
+                            <div class="form-group">
+                                <label for="task">Department</label>
+                                <!-- Ensure formControlName matches the control name in your form group -->
+                                <input type="text" class="form-control" formControlName="name" id="task">
+                            </div>
+                            <!-- Corrected formControlName to "id" as per your TypeScript form group definition -->
+                            <div class="form-group">
+                                <label for="progress">Bank Id</label>
+                                <input type="number" class="form-control" formControlName="id" id="progress">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Department</button>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
